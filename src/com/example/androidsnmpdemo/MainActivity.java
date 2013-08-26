@@ -1,5 +1,7 @@
 package com.example.androidsnmpdemo;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,9 +21,17 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 0:
+				//search device
+				@SuppressWarnings("unchecked")
+				List<String>foundList = (List<String>) msg.obj;
+				((TextView) findViewById(R.id.textView1)).setText("found hosts:"+foundList.size()); 
+				break;
 
-			((TextView) findViewById(R.id.textView1)).setText("thread done");
-		}
+			default:
+				break;
+			} }
 
 	};
 
@@ -56,8 +66,11 @@ public class MainActivity extends Activity {
 			@Override
 			public void run() {
 				SnmpService snmp = new SnmpService();
-				snmp.findSnmpDevicesList("192.168.1.22");
-				handler.sendEmptyMessage(0);
+				List<String> foundedDevices = snmp.findSnmpDevicesList("192.168.1.22");
+				Message msg = new Message();
+				msg.what = 0;
+				msg.obj = foundedDevices;
+				handler.sendMessage(msg);
 			}
 		}.start();
 
