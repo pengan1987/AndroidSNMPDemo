@@ -3,6 +3,8 @@
 
     <string name="app_name">AndroidSNMPDemo</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-
+    <string name="hello_world">Please confirm your IP address and Search</string>
+	<string name="currentIpAddress">Current IP Address</string>
+	<string name="Search">Search Devices</string>
+	<string name="Dev_Found">Founded Devices:</string>
 </resources>
