@@ -15,5 +15,8 @@
     <string name="targetIp">Target IP</string>
     <string name="currentLuminosity">Current Luminosity</string>
     <string name="LuminosityValue">N/A</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

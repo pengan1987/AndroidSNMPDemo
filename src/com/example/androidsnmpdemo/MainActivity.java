@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 				((TextView) findViewById(R.id.textMessage))
 						.setText("found hosts:" + foundList.size());
 				spinner = (Spinner) findViewById(R.id.spinnerDevices);
-
+				spinner.setEnabled(true);
 				adapter = new ArrayAdapter<String>(MainActivity.this,
 						android.R.layout.simple_spinner_item, foundList);
 				spinner.setAdapter(adapter);
@@ -58,8 +58,10 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		String localIP = IpUtil.getIPAddress(true);
 		// IpUtil.getMACAddress("eth0");
-
+		
 		setContentView(R.layout.activity_main);
+		Spinner spinnerDevices = (Spinner) findViewById(R.id.spinnerDevices);
+		spinnerDevices.setEnabled(false);
 		final EditText editTextLocalIp = (EditText) findViewById(R.id.editTextLocalIP);
 		editTextLocalIp.setText(localIP);
 		Button ButtonSeachDevices = (Button) findViewById(R.id.buttonSearchDevices);
@@ -84,7 +86,7 @@ public class MainActivity extends Activity {
 
 				Spinner spinnerDevices = (Spinner) findViewById(R.id.spinnerDevices);
 
-				if (spinnerDevices.hasFocusable()) {
+				if (spinnerDevices.isEnabled()) {
 
 					String TargetIP = spinnerDevices.getSelectedItem()
 							.toString();
