@@ -1,5 +1,7 @@
 package com.example.androidsnmpdemo;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import java.io.*;
 import java.net.*;
 import java.util.*;   
@@ -65,7 +67,8 @@ public class IpUtil {
      * @param interfaceName eth0, wlan0 or NULL=use first interface 
      * @return  mac address or empty string
      */
-    public static String getMACAddress(String interfaceName) {
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+	public static String getMACAddress(String interfaceName) {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface intf : interfaces) {

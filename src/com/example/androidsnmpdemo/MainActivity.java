@@ -9,6 +9,7 @@ import android.os.Message;
 
 import android.R.string;
 import android.app.Activity;
+import android.content.Intent;
 
 import android.view.Menu;
 import android.view.View;
@@ -19,12 +20,14 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
 	private Handler handler = new Handler() {
 
 		private Spinner spinner;
+		@SuppressWarnings("rawtypes")
 		private ArrayAdapter adapter;
 
 		@Override
@@ -34,12 +37,13 @@ public class MainActivity extends Activity {
 				// search device
 				@SuppressWarnings("unchecked")
 				ArrayList<String> foundList = (ArrayList<String>) msg.obj;
-				((TextView) findViewById(R.id.textView2))
+				((TextView) findViewById(R.id.textMessage))
 						.setText("found hosts:" + foundList.size());
 				spinner = (Spinner) findViewById(R.id.spinnerDevices);
-				// 绑定要显示的texts
-				 adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, foundList);
-				 spinner.setAdapter(adapter);
+				
+				adapter = new ArrayAdapter<String>(MainActivity.this,
+						android.R.layout.simple_spinner_item, foundList);
+				spinner.setAdapter(adapter);
 				break;
 
 			default:
@@ -58,11 +62,11 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		final EditText editTextLocalIp = (EditText) findViewById(R.id.editTextLocalIP);
 		editTextLocalIp.setText(localIP);
-		Button button1 = (Button) findViewById(R.id.searchDevicesButton);
+		Button ButtonSeachDevices = (Button) findViewById(R.id.buttonSearchDevices);
+		Button ButtonStartControl = (Button) findViewById(R.id.buttonStartControl);
+		final TextView textMessage = (TextView) findViewById(R.id.textMessage);
 
-		final TextView textView2 = (TextView) findViewById(R.id.textView2);
-
-		button1.setOnClickListener(new View.OnClickListener() {
+		ButtonSeachDevices.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -70,7 +74,35 @@ public class MainActivity extends Activity {
 				searchSnmpDevices(LocIP);
 			}
 		});
+		ButtonStartControl.setOnClickListener(new View.OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				Intent intentForControl = new Intent();
+				intentForControl.setClass(MainActivity.this,
+						ControlActivity.class);
+			
+
+				Spinner spinnerDevices = (Spinner) findViewById(R.id.spinnerDevices);
+				
+				
+				if (spinnerDevices.hasFocusable()) {
+					
+					
+					String TargetIP = spinnerDevices.getSelectedItem()
+							.toString();
+
+					
+					intentForControl.putExtra("TargetIP", TargetIP);
+					startActivity(intentForControl);
+				} else {
+
+					Toast.makeText(MainActivity.this, "No Target Device Selected",
+							Toast.LENGTH_SHORT).show();
+
+				}
+			}
+		});
 	}
 
 	@Override
@@ -85,7 +117,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void run() {
 				SnmpService snmp = new SnmpService();
-				ArrayList<String> foundedDevices = snmp.findSnmpDevicesList(LocalIP);
+				ArrayList<String> foundedDevices = snmp
+						.findSnmpDevicesList(LocalIP);
 				Message msg = new Message();
 				msg.what = 0;
 				msg.obj = foundedDevices;

@@ -10,7 +10,7 @@
     tools:context=".MainActivity" >
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -21,13 +21,13 @@
         android:id="@+id/editTextLocalIP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/textMessage"
+        android:layout_below="@+id/textMessage"
         android:ems="10"
         android:hint="@string/currentIpAddress" />
 
     <Button
-        android:id="@+id/searchDevicesButton"
+        android:id="@+id/buttonSearchDevices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/editTextLocalIP"
@@ -35,18 +35,26 @@
         android:text="@string/Search" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textFoundedDevices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/spinnerDevices"
-        android:layout_below="@+id/searchDevicesButton"
+        android:layout_below="@+id/buttonSearchDevices"
         android:text="@string/Dev_Found" />
 
     <Spinner
         android:id="@+id/spinnerDevices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/searchDevicesButton"
-        android:layout_below="@+id/textView1" />
+        android:layout_alignLeft="@+id/buttonSearchDevices"
+        android:layout_below="@+id/textFoundedDevices" />
+
+    <Button
+        android:id="@+id/buttonStartControl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/spinnerDevices"
+        android:layout_below="@+id/spinnerDevices"
+        android:text="@string/start_control" />
 
 </RelativeLayout>
