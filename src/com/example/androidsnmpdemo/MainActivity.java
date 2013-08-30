@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 				((TextView) findViewById(R.id.textMessage))
 						.setText("found hosts:" + foundList.size());
 				spinner = (Spinner) findViewById(R.id.spinnerDevices);
-				
+
 				adapter = new ArrayAdapter<String>(MainActivity.this,
 						android.R.layout.simple_spinner_item, foundList);
 				spinner.setAdapter(adapter);
@@ -81,24 +81,21 @@ public class MainActivity extends Activity {
 				Intent intentForControl = new Intent();
 				intentForControl.setClass(MainActivity.this,
 						ControlActivity.class);
-			
 
 				Spinner spinnerDevices = (Spinner) findViewById(R.id.spinnerDevices);
-				
-				
+
 				if (spinnerDevices.hasFocusable()) {
-					
-					
+
 					String TargetIP = spinnerDevices.getSelectedItem()
 							.toString();
 
-					
 					intentForControl.putExtra("TargetIP", TargetIP);
 					startActivity(intentForControl);
 				} else {
 
-					Toast.makeText(MainActivity.this, "No Target Device Selected",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(MainActivity.this,
+							"No Target Device Selected", Toast.LENGTH_SHORT)
+							.show();
 
 				}
 			}

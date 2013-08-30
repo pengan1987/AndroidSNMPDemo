@@ -2,7 +2,6 @@ package com.example.androidsnmpdemo;
 
 import java.lang.ref.WeakReference;
 
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -58,7 +57,7 @@ public class ControlActivity extends Activity {
 		final ToggleButton toggleButtonPower = (ToggleButton) findViewById(R.id.toggleButtonPower);
 		TextView textViewTargetIp = (TextView) findViewById(R.id.textViewTargetIp);
 		textViewTargetIp.setText("Target IP: " + TargetIP);
-		luminosityMonitorActive=true;
+		luminosityMonitorActive = true;
 		startLuminosityMonitor();
 		toggleButtonPower.setOnClickListener(new View.OnClickListener() {
 
@@ -68,11 +67,13 @@ public class ControlActivity extends Activity {
 			}
 		});
 	}
-	
+
 	@Override
-	protected void onPause(){
-		super.onPause();  
-		luminosityMonitorActive=false;
+	protected void onPause() {
+		super.onPause();
+		luminosityMonitorActive = false;
+		finish();
+
 	}
 
 	private void startLuminosityMonitor() {
