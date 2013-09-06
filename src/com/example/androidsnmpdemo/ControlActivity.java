@@ -10,6 +10,8 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -17,6 +19,9 @@ public class ControlActivity extends Activity {
 
 	private static String TargetIP;
 	private static Boolean luminosityMonitorActive;
+	private static Integer valueRed=0;
+	private static Integer valueGreen=0;
+	private static Integer valueBlue=0;
 
 	static class MyHandler extends Handler {
 
@@ -66,6 +71,93 @@ public class ControlActivity extends Activity {
 				changeSwich(toggleButtonPower.isChecked());
 			}
 		});
+
+		SeekBar seekBarRed = (SeekBar) findViewById(R.id.seekBarRed);
+		SeekBar seekBarGreen = (SeekBar) findViewById(R.id.seekBarGreen);
+		SeekBar seekBarBlue = (SeekBar) findViewById(R.id.seekBarBlue);
+
+		seekBarRed.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+			@Override
+			public void onProgressChanged(SeekBar seekBarRed, int progress,
+					boolean fromUser) {
+				valueRed = progress;
+
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBarRed) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBarRed) {
+
+				changeDeviceColor();
+
+			}
+		});
+
+		seekBarGreen.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+			@Override
+			public void onProgressChanged(SeekBar seekBarGreen, int progress,
+					boolean fromUser) {
+				// TODO Auto-generated method stub
+				valueGreen = progress;
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBarGreen) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBarGreen) {
+				changeDeviceColor();
+			}
+		});
+
+		seekBarBlue.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+			@Override
+			public void onProgressChanged(SeekBar seekBarBlue, int progress,
+					boolean fromUser) {
+				// TODO Auto-generated method stub
+				valueBlue = progress;
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBarBlue) {
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBarBlue) {
+				changeDeviceColor();
+
+			}
+		});
+
+	}
+
+	protected void changeDeviceColor() {
+		String colorString = "Red:" + valueRed.toString() + " Green:"
+				+ valueGreen.toString() + " Blue:" + valueBlue.toString();
+		TextView textViewColor = (TextView) findViewById(R.id.textViewColor);
+		textViewColor.setText(colorString);
+		new Thread() {
+			@Override
+			public void run() {
+				SnmpService snmp = new SnmpService();
+				snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.2.3", valueRed);
+				snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.2.5",
+						valueGreen);
+				snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.2.6",
+						valueBlue);
+			}
+		}.start();
 	}
 
 	@Override

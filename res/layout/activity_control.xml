@@ -17,36 +17,38 @@
         android:text="ToggleButton" />
 
     <SeekBar
-        android:id="@+id/seekBar1"
+        android:id="@+id/seekBarRed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/toggleButtonPower"
         android:layout_marginTop="36dp"
-        android:layout_toRightOf="@+id/textMessage" />
+        android:layout_toRightOf="@+id/textMessage"
+        android:max="@integer/maxColorValue" />
 
     <TextView
         android:id="@+id/textFoundedDevices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/toggleButtonPower"
-        android:layout_alignTop="@+id/seekBar1"
+        android:layout_alignTop="@+id/seekBarRed"
         android:text="@string/red" />
 
     <SeekBar
-        android:id="@+id/seekBar2"
+        android:id="@+id/seekBarGreen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seekBar1"
-        android:layout_below="@+id/seekBar1"
-        android:layout_marginTop="16dp" />
+        android:layout_alignLeft="@+id/seekBarRed"
+        android:layout_below="@+id/seekBarRed"
+        android:layout_marginTop="16dp"
+        android:max="@integer/maxColorValue" />
 
     <TextView
         android:id="@+id/textMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textFoundedDevices"
-        android:layout_alignTop="@+id/seekBar2"
+        android:layout_alignTop="@+id/seekBarGreen"
         android:text="@string/green" />
 
     <TextView
@@ -54,23 +56,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textMessage"
-        android:layout_below="@+id/seekBar2"
+        android:layout_below="@+id/seekBarGreen"
         android:layout_marginTop="20dp"
         android:text="@string/blue" />
 
     <SeekBar
-        android:id="@+id/seekBar3"
+        android:id="@+id/seekBarBlue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seekBar2"
-        android:layout_alignTop="@+id/textView3" />
+        android:layout_alignLeft="@+id/seekBarGreen"
+        android:layout_alignTop="@+id/textView3"
+        android:max="@integer/maxColorValue" />
 
     <TextView
         android:id="@+id/textViewTargetIp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView3"
-        android:layout_below="@+id/seekBar3"
+        android:layout_below="@+id/seekBarBlue"
         android:layout_marginTop="15dp"
         android:text="@string/targetIp" />
 
@@ -91,5 +94,13 @@
         android:layout_marginLeft="14dp"
         android:layout_toRightOf="@+id/textViewLuminosity"
         android:text="@string/LuminosityValue" />
+
+    <TextView
+        android:id="@+id/textViewColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewLuminosity"
+        android:layout_below="@+id/textViewLuminosity"
+        android:text="@string/current_color" />
 
 </RelativeLayout>

@@ -49,6 +49,20 @@ public class SnmpService {
 
 	}
 	
+	public void setSnmpInteger(String deviceIP,String OID, Integer value) {
+		SnmpUtil util = new SnmpUtil();
+		try {
+			util.initComm(deviceIP);
+			
+
+			util.setIntegerPDU(OID, value);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	public Integer getSnmpInteger(String deviceIP,String OID) {
 		Integer result = 0;
 		SnmpUtil util = new SnmpUtil();
