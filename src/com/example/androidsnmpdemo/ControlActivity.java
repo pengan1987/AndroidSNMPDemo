@@ -19,9 +19,9 @@ public class ControlActivity extends Activity {
 
 	private static String TargetIP;
 	private static Boolean luminosityMonitorActive;
-	private static Integer valueRed=0;
-	private static Integer valueGreen=0;
-	private static Integer valueBlue=0;
+	private static Integer valueRed = 0;
+	private static Integer valueGreen = 0;
+	private static Integer valueBlue = 0;
 
 	static class MyHandler extends Handler {
 
@@ -151,11 +151,21 @@ public class ControlActivity extends Activity {
 			@Override
 			public void run() {
 				SnmpService snmp = new SnmpService();
-				snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.2.3", valueRed);
-				snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.2.5",
-						valueGreen);
-				snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.2.6",
-						valueBlue);
+
+				try {
+					snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.1.3",
+							valueRed);
+					sleep(100);
+					snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.1.5",
+							valueGreen);
+					sleep(100);
+					snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.1.6",
+							valueBlue);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		}.start();
 	}

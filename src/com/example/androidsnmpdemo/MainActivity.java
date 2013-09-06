@@ -91,14 +91,14 @@ public class MainActivity extends Activity {
 
 				Spinner spinnerDevices = (Spinner) findViewById(R.id.spinnerDevices);
 
-				if (!spinnerDevices.isEnabled()) {
+				if (spinnerDevices.isEnabled()) {
 
 					// This is for Debug Only
-					intentForControl.putExtra("TargetIP", "192.168.99.9");
+					// intentForControl.putExtra("TargetIP", "192.168.99.9");
 					// this is for REAL device
-					// String TargetIP =
-					// spinnerDevices.getSelectedItem().toString();
-					// intentForControl.putExtra("TargetIP", TargetIP);
+					String TargetIP = spinnerDevices.getSelectedItem()
+							.toString();
+					intentForControl.putExtra("TargetIP", TargetIP);
 					startActivity(intentForControl);
 				} else {
 

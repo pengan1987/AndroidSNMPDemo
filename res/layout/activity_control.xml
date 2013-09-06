@@ -24,7 +24,8 @@
         android:layout_below="@+id/toggleButtonPower"
         android:layout_marginTop="36dp"
         android:layout_toRightOf="@+id/textMessage"
-        android:max="@integer/maxColorValue" />
+        android:max="@integer/maxColorValue"
+        android:progress="@integer/defaultColorValue" />
 
     <TextView
         android:id="@+id/textFoundedDevices"
@@ -41,7 +42,8 @@
         android:layout_alignLeft="@+id/seekBarRed"
         android:layout_below="@+id/seekBarRed"
         android:layout_marginTop="16dp"
-        android:max="@integer/maxColorValue" />
+        android:max="@integer/maxColorValue"
+        android:progress="@integer/defaultColorValue" />
 
     <TextView
         android:id="@+id/textMessage"
@@ -66,7 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/seekBarGreen"
         android:layout_alignTop="@+id/textView3"
-        android:max="@integer/maxColorValue" />
+        android:max="@integer/maxColorValue"
+        android:progress="@integer/defaultColorValue" />
 
     <TextView
         android:id="@+id/textViewTargetIp"
