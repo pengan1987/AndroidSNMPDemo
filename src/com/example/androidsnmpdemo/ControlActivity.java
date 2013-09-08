@@ -181,8 +181,9 @@ public class ControlActivity extends Activity {
 		new Thread() {
 			@Override
 			public void run() {
+				SnmpService snmp = new SnmpService();
 				while (luminosityMonitorActive) {
-					SnmpService snmp = new SnmpService();
+					
 					Integer result = snmp.getSnmpInteger(TargetIP,
 							"1.3.6.1.4.1.36582.2.0");
 					Message msg = new Message();
