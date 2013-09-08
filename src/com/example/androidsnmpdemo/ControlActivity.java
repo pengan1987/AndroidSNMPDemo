@@ -19,9 +19,9 @@ public class ControlActivity extends Activity {
 
 	private static String TargetIP;
 	private static Boolean luminosityMonitorActive;
-	private static Integer valueRed = 0;
-	private static Integer valueGreen = 0;
-	private static Integer valueBlue = 0;
+	private static Integer valueRed = 25;
+	private static Integer valueGreen = 25;
+	private static Integer valueBlue = 25;
 
 	static class MyHandler extends Handler {
 
@@ -56,8 +56,7 @@ public class ControlActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_control);
 
-		Bundle bundle = this.getIntent().getExtras();
-		TargetIP = (String) bundle.get("TargetIP");
+		TargetIP = this.getIntent().getStringExtra("TargetIP");
 
 		final ToggleButton toggleButtonPower = (ToggleButton) findViewById(R.id.toggleButtonPower);
 		TextView textViewTargetIp = (TextView) findViewById(R.id.textViewTargetIp);

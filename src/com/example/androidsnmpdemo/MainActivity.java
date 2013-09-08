@@ -46,6 +46,9 @@ public class MainActivity extends Activity {
 				if (adapter.getCount() > 0) {
 					spinner.setEnabled(true);
 					spinner.setAdapter(adapter);
+				}else{
+					spinner.setEnabled(false);
+					spinner.setAdapter(null);
 				}
 				break;
 
