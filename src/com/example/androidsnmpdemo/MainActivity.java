@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
 				if (adapter.getCount() > 0) {
 					spinner.setEnabled(true);
 					spinner.setAdapter(adapter);
-				}else{
+				} else {
 					spinner.setEnabled(false);
 					spinner.setAdapter(null);
 				}
@@ -132,8 +132,7 @@ public class MainActivity extends Activity {
 				msg.what = 0;
 				msg.obj = foundedDevices;
 				handler.sendMessage(msg);
-				snmp=null;
-				
+				snmp = null;
 			}
 		}.start();
 
