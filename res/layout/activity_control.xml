@@ -8,69 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ControlActivity" >
 
-    <ToggleButton
-        android:id="@+id/toggleButtonPower"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="ToggleButton" />
-
-    <SeekBar
-        android:id="@+id/seekBarRed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/toggleButtonPower"
-        android:layout_marginTop="36dp"
-        android:layout_toRightOf="@+id/textMessage"
-        android:max="@integer/maxColorValue"
-        android:progress="@integer/defaultColorValue" />
-
-    <TextView
-        android:id="@+id/textFoundedDevices"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/toggleButtonPower"
-        android:layout_alignTop="@+id/seekBarRed"
-        android:text="@string/red" />
-
-    <SeekBar
-        android:id="@+id/seekBarGreen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seekBarRed"
-        android:layout_below="@+id/seekBarRed"
-        android:layout_marginTop="16dp"
-        android:max="@integer/maxColorValue"
-        android:progress="@integer/defaultColorValue" />
-
-    <TextView
-        android:id="@+id/textMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textFoundedDevices"
-        android:layout_alignTop="@+id/seekBarGreen"
-        android:text="@string/green" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textMessage"
-        android:layout_below="@+id/seekBarGreen"
-        android:layout_marginTop="20dp"
-        android:text="@string/blue" />
-
-    <SeekBar
-        android:id="@+id/seekBarBlue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seekBarGreen"
-        android:layout_alignTop="@+id/textView3"
-        android:max="@integer/maxColorValue"
-        android:progress="@integer/defaultColorValue" />
-
     <TextView
         android:id="@+id/textViewTargetIp"
         android:layout_width="wrap_content"
@@ -105,5 +42,105 @@
         android:layout_alignLeft="@+id/textViewLuminosity"
         android:layout_below="@+id/textViewLuminosity"
         android:text="@string/current_color" />
+
+    <TextView
+        android:id="@+id/textViewObjDistence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewColor"
+        android:layout_below="@+id/textViewColor"
+        android:text="@string/ObjDistence" />
+
+    <TextView
+        android:id="@+id/textViewObjDistenceValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textViewObjDistence"
+        android:layout_alignBottom="@+id/textViewObjDistence"
+        android:layout_alignLeft="@+id/textViewLuminosityValue"
+        android:text="@string/LuminosityValue" />
+
+    <SeekBar
+        android:id="@+id/seekBarRed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/toggleButtonPower"
+        android:layout_below="@+id/toggleButtonPower"
+        android:max="@integer/maxColorValue"
+        android:progress="@integer/defaultColorValue" />
+
+    <TextView
+        android:id="@+id/textFoundedDevices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/toggleButtonPower"
+        android:layout_below="@+id/seekBarRed"
+        android:text="@string/red" />
+
+    <SeekBar
+        android:id="@+id/seekBarGreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/toggleButtonPower"
+        android:layout_below="@+id/textFoundedDevices"
+        android:max="@integer/maxColorValue"
+        android:progress="@integer/defaultColorValue" />
+
+    <TextView
+        android:id="@+id/textMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/toggleButtonPower"
+        android:layout_below="@+id/seekBarGreen"
+        android:text="@string/green" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/toggleButtonPower"
+        android:layout_below="@+id/textMessage"
+        android:text="@string/blue" />
+
+    <SeekBar
+        android:id="@+id/seekBarBlue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/toggleButtonPower"
+        android:layout_below="@+id/textView3"
+        android:max="@integer/maxColorValue"
+        android:progress="@integer/defaultColorValue" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Power" />
+
+    <ToggleButton
+        android:id="@+id/toggleButtonPower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:text="ToggleButton" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/toggleButtonPower"
+        android:layout_toLeftOf="@+id/textViewObjDistenceValue"
+        android:text="UltraSound" />
+
+    <ToggleButton
+        android:id="@+id/toggleButtonUltraSnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:text="ToggleButton" />
 
 </RelativeLayout>

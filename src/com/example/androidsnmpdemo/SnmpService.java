@@ -6,16 +6,31 @@ import java.util.ArrayList;
 
 public class SnmpService {
 	String tag = "SnmpService";
-	SnmpUtil util;
-
+	SnmpUtil util = null;
+	String deviceIP;
+	public SnmpService(){
+		
+	}
+	
+	public SnmpService(String deviceIP){
+		
+		try {
+			util = new SnmpUtil();
+			util.initComm(deviceIP);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public ArrayList<String> findSnmpDevicesList(String currentIP) {
 		ArrayList<String> result = new ArrayList<String>();
-		SnmpUtil util = new SnmpUtil();
+		
 		String BroadCastIP = currentIP.substring(0,
 				currentIP.lastIndexOf(".") + 1) + "255";
 
 		try {
-
+			util = new SnmpUtil();
 			util.initComm(BroadCastIP);
 			String pduContent = util.getPDU("1.3.6.1.2.1.4.20.1.1");
 			if (pduContent.contains(":")) {
@@ -29,14 +44,14 @@ public class SnmpService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		util.dispose();
 		return result;
 	}
 
-	public void setSnmpSwitch(String deviceIP,String OID, boolean switcher) {
-		SnmpUtil util = new SnmpUtil();
+	public void setSnmpSwitch(String OID, boolean switcher) {
+	
 		try {
-			util.initComm(deviceIP);
+			
 			int power = 2;
 			if (switcher)
 				power = 1;
@@ -46,13 +61,13 @@ public class SnmpService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 	}
 	
-	public void setSnmpInteger(String deviceIP,String OID, Integer value) {
-		SnmpUtil util = new SnmpUtil();
+	public void setSnmpInteger(String OID, Integer value) {
+	
 		try {
-			util.initComm(deviceIP);
+		
 			
 
 			util.setIntegerPDU(OID, value);
@@ -60,16 +75,16 @@ public class SnmpService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 	}
 	
-	public Integer getSnmpInteger(String deviceIP,String OID) {
+	public Integer getSnmpInteger(String OID) {
 		Integer result = 0;
-		SnmpUtil util = new SnmpUtil();
+		
 		
 		try {
 
-			util.initComm(deviceIP);
+		
 			String pduContent = util.getPDU(OID);
 			if (pduContent.contains(":")) {
 				String preResult = pduContent
@@ -81,7 +96,7 @@ public class SnmpService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		return result;
 	}
 }

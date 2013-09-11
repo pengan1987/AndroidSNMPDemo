@@ -23,7 +23,7 @@ public class SnmpUtil {
 	private Snmp snmp = null;
 
 	private Address targetAddress = null;
-
+	PDU pdu = new PDU();
 	public void initComm(String targetAddressString) throws IOException {
 
 		// 设置Agent方的IP和端口
@@ -50,23 +50,25 @@ public class SnmpUtil {
 
 	public void setOctetStringPDU(String sOID, String value) throws IOException {
 		// set PDU
-		PDU pdu = new PDU();
+		
 		pdu.add(new VariableBinding(new OID(sOID), new OctetString(value)));
 		pdu.setType(PDU.SET);
 		sendPDU(pdu);
+		pdu.clear();
 	}
 
 	public void setIntegerPDU(String sOID, Integer value) throws IOException {
 		// set PDU
-		PDU pdu = new PDU();
+		
 		pdu.add(new VariableBinding(new OID(sOID), new Integer32(value)));
 		pdu.setType(PDU.SET);
 		sendPDU(pdu);
+		pdu.clear();
 	}
 
 	public String getPDU(String sOID) throws IOException {
 		// get PDU
-		PDU pdu = new PDU();
+		pdu.clear();
 		pdu.add(new VariableBinding(new OID(sOID)));
 		pdu.setType(PDU.GET);
 		return readResponse(sendPDU(pdu));
@@ -89,6 +91,12 @@ public class SnmpUtil {
 		return result;
 	}
 
+	public void dispose(){
+		snmp=null;
+		targetAddress =null;
+		pdu = null;
+		
+	}
 	/*
 	 * public static void getProp(String targetAddressString,String OID) { try {
 	 * SnmpUtil util = new SnmpUtil(); util.initComm(targetAddressString); //

@@ -132,6 +132,8 @@ public class MainActivity extends Activity {
 				msg.what = 0;
 				msg.obj = foundedDevices;
 				handler.sendMessage(msg);
+				snmp=null;
+				
 			}
 		}.start();
 

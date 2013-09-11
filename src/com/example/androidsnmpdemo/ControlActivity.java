@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -18,10 +19,13 @@ import android.widget.ToggleButton;
 public class ControlActivity extends Activity {
 
 	private static String TargetIP;
-	private static Boolean luminosityMonitorActive;
+	private static Boolean MonitorActive;
 	private static Integer valueRed = 25;
 	private static Integer valueGreen = 25;
 	private static Integer valueBlue = 25;
+	private static Boolean luminosityMonEnabled = true;
+	private static Boolean UltraSndMonEnabled = false;
+
 
 	static class MyHandler extends Handler {
 
@@ -37,11 +41,15 @@ public class ControlActivity extends Activity {
 			switch (msg.what) {
 			case 2:
 				Integer lux = (Integer) msg.obj;
-				TextView textViewTargetIp = (TextView) theActivity
+				TextView textViewLuminosity = (TextView) theActivity
 						.findViewById(R.id.textViewLuminosityValue);
-				textViewTargetIp.setText(lux.toString());
+				textViewLuminosity.setText(lux.toString());
 				break;
-
+			case 3:
+				Integer dist = (Integer) msg.obj;
+				TextView textViewDistence = (TextView) theActivity
+						.findViewById(R.id.textViewObjDistenceValue);
+				textViewDistence.setText(dist.toString());
 			default:
 				break;
 			}
@@ -57,17 +65,28 @@ public class ControlActivity extends Activity {
 		setContentView(R.layout.activity_control);
 
 		TargetIP = this.getIntent().getStringExtra("TargetIP");
-
+		
 		final ToggleButton toggleButtonPower = (ToggleButton) findViewById(R.id.toggleButtonPower);
+		final ToggleButton toggleButtonUltraSnd = (ToggleButton) findViewById(R.id.toggleButtonUltraSnd);
 		TextView textViewTargetIp = (TextView) findViewById(R.id.textViewTargetIp);
 		textViewTargetIp.setText("Target IP: " + TargetIP);
-		luminosityMonitorActive = true;
-		startLuminosityMonitor();
+		MonitorActive = true;
+		startMonitors();
+
 		toggleButtonPower.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				changeSwich(toggleButtonPower.isChecked());
+			}
+		});
+
+		toggleButtonUltraSnd.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				UltraSndMonEnabled = toggleButtonUltraSnd.isChecked();
+				Log.i("ultrasndchange", UltraSndMonEnabled.toString());
 			}
 		});
 
@@ -149,22 +168,18 @@ public class ControlActivity extends Activity {
 		new Thread() {
 			@Override
 			public void run() {
-				SnmpService snmp = new SnmpService();
-
+				SnmpService snmp = new SnmpService(TargetIP);
 				try {
-					snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.1.3",
-							valueRed);
+					snmp.setSnmpInteger("1.3.6.1.4.1.36582.1.3", valueRed);
 					sleep(100);
-					snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.1.5",
-							valueGreen);
+					snmp.setSnmpInteger("1.3.6.1.4.1.36582.1.5", valueGreen);
 					sleep(100);
-					snmp.setSnmpInteger(TargetIP, "1.3.6.1.4.1.36582.1.6",
-							valueBlue);
+					snmp.setSnmpInteger("1.3.6.1.4.1.36582.1.6", valueBlue);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
+				 snmp = null;
 			}
 		}.start();
 	}
@@ -172,31 +187,46 @@ public class ControlActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		luminosityMonitorActive = false;
+		MonitorActive = false;
 		finish();
 
 	}
 
-	private void startLuminosityMonitor() {
+	private void startMonitors() {
 		new Thread() {
 			@Override
 			public void run() {
-				SnmpService snmp = new SnmpService();
-				while (luminosityMonitorActive) {
-					
-					Integer result = snmp.getSnmpInteger(TargetIP,
-							"1.3.6.1.4.1.36582.2.0");
-					Message msg = new Message();
-					msg.what = 2;
-					msg.obj = result;
-					handler.sendMessage(msg);
+				SnmpService snmp = new SnmpService(TargetIP);
+				while (MonitorActive) {
+
 					try {
-						sleep(500);
+						if (luminosityMonEnabled) {
+							Integer result = snmp
+									.getSnmpInteger("1.3.6.1.4.1.36582.2.0");
+							Message msg = new Message();
+							msg.what = 2;
+							msg.obj = result;
+							handler.sendMessage(msg);
+
+							sleep(500);
+						}
+						if (UltraSndMonEnabled) {
+							Integer result = snmp
+									.getSnmpInteger("1.3.6.1.4.1.36582.3.1");
+							Message msg = new Message();
+							msg.what = 3;
+							msg.obj = result;
+							handler.sendMessage(msg);
+
+							sleep(500);
+						}
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+
 				}
+				snmp=null;
 			}
 		}.start();
 
@@ -207,8 +237,9 @@ public class ControlActivity extends Activity {
 		new Thread() {
 			@Override
 			public void run() {
-				SnmpService snmp = new SnmpService();
-				snmp.setSnmpSwitch(TargetIP, "1.3.6.1.4.1.36582.1.0", checked);
+				SnmpService snmp = new SnmpService(TargetIP);
+				snmp.setSnmpSwitch("1.3.6.1.4.1.36582.1.0", checked);
+				snmp=null;
 			}
 		}.start();
 	}
