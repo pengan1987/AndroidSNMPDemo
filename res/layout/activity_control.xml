@@ -127,20 +127,28 @@
         android:layout_below="@+id/textView1"
         android:text="ToggleButton" />
 
+    <ToggleButton
+        android:id="@+id/toggleButtonUltraSnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/seekBarRed"
+        android:layout_toRightOf="@+id/toggleButtonPower"
+        android:text="ToggleButton" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/toggleButtonPower"
-        android:layout_toLeftOf="@+id/textViewObjDistenceValue"
+        android:layout_toRightOf="@+id/toggleButtonPower"
         android:text="UltraSound" />
 
-    <ToggleButton
-        android:id="@+id/toggleButtonUltraSnd"
+    <Button
+        android:id="@+id/buttonColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/textView2"
-        android:text="ToggleButton" />
+        android:layout_alignBottom="@+id/toggleButtonUltraSnd"
+        android:layout_alignRight="@+id/seekBarRed"
+        android:text="@string/color" />
 
 </RelativeLayout>

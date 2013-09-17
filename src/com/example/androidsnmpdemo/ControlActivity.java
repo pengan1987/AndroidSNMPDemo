@@ -2,18 +2,27 @@ package com.example.androidsnmpdemo;
 
 import java.lang.ref.WeakReference;
 
+import afzkl.development.colorpickerview.dialog.ColorPickerDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 
+import android.R.color;
+import android.R.integer;
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class ControlActivity extends Activity {
@@ -50,6 +59,13 @@ public class ControlActivity extends Activity {
 				TextView textViewDistence = (TextView) theActivity
 						.findViewById(R.id.textViewObjDistenceValue);
 				textViewDistence.setText(dist.toString());
+			case 4:
+				Integer pickedcolor = (Integer)msg.obj;
+				int r = (pickedcolor >> 16) & 0xFF;
+				int g = (pickedcolor >> 8) & 0xFF;
+				int b = (pickedcolor >> 0) & 0xFF;
+				
+				theActivity.setColorBars(r, g, b);
 			default:
 				break;
 			}
@@ -68,6 +84,7 @@ public class ControlActivity extends Activity {
 		
 		final ToggleButton toggleButtonPower = (ToggleButton) findViewById(R.id.toggleButtonPower);
 		final ToggleButton toggleButtonUltraSnd = (ToggleButton) findViewById(R.id.toggleButtonUltraSnd);
+		final Button ButtonColor = (Button) findViewById(R.id.buttonColor);
 		TextView textViewTargetIp = (TextView) findViewById(R.id.textViewTargetIp);
 		textViewTargetIp.setText("Target IP: " + TargetIP);
 		MonitorActive = true;
@@ -90,6 +107,14 @@ public class ControlActivity extends Activity {
 			}
 		});
 
+		ButtonColor.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				onClickColorPickerDialog();
+			}
+		});
+		
 		SeekBar seekBarRed = (SeekBar) findViewById(R.id.seekBarRed);
 		SeekBar seekBarGreen = (SeekBar) findViewById(R.id.seekBarGreen);
 		SeekBar seekBarBlue = (SeekBar) findViewById(R.id.seekBarBlue);
@@ -250,5 +275,60 @@ public class ControlActivity extends Activity {
 		getMenuInflater().inflate(R.menu.control, menu);
 		return true;
 	}
+	public void onClickColorPickerDialog() {
+		
+		
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		int initialValue = prefs.getInt("color_2", 0xFF303030);
+		
+		Log.d("mColorPicker", "initial value:" + initialValue);
+				
+		final ColorPickerDialog colorDialog = new ColorPickerDialog(this, initialValue);
+		
+		colorDialog.setAlphaSliderVisible(false);
+		colorDialog.setTitle("Pick a Color");
+		
+		colorDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
 
+				String colorString = colorToHexString(colorDialog.getColor());
+				Toast.makeText(ControlActivity.this, "Selected Color: " + colorString, Toast.LENGTH_LONG).show();
+							
+				//Save the value in our preferences.
+				SharedPreferences.Editor editor = prefs.edit();
+				editor.putInt("color_2", colorDialog.getColor());
+				editor.commit();
+				
+				Message msg = new Message();
+				msg.what = 4;
+				
+				msg.obj = colorDialog.getColor();
+				handler.sendMessage(msg);
+			}
+		});
+		
+		colorDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				//Nothing to do here.
+			}
+		});
+		
+		colorDialog.show();
+	}
+	
+	private String colorToHexString(int color) {
+		return String.format("#%06X", 0xFFFFFFFF & color);
+	}
+	private void setColorBars(int Red, int Green, int Blue){
+		SeekBar seekBarRed = (SeekBar) findViewById(R.id.seekBarRed);
+		SeekBar seekBarGreen = (SeekBar) findViewById(R.id.seekBarGreen);
+		SeekBar seekBarBlue = (SeekBar) findViewById(R.id.seekBarBlue);
+		seekBarRed.setProgress(Red);
+		seekBarGreen.setProgress(Green);
+		seekBarBlue.setProgress(Blue);
+	}
 }
