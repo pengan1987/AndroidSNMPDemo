@@ -109,8 +109,8 @@ public class MainActivity extends Activity {
 							"No Target Device Selected", Toast.LENGTH_SHORT)
 							.show();
 					// This is for Debug Only
-					intentForControl.putExtra("TargetIP", "192.168.99.9");
-					startActivity(intentForControl);
+				//	intentForControl.putExtra("TargetIP", "192.168.99.9");
+				//	startActivity(intentForControl);
 
 				}
 			}

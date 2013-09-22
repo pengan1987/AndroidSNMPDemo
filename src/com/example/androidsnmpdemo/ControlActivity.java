@@ -8,17 +8,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 
-import android.R.color;
-import android.R.integer;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+
 import android.widget.Button;
+
+import android.widget.CompoundButton;
+
+
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -34,7 +37,6 @@ public class ControlActivity extends Activity {
 	private static Integer valueBlue = 25;
 	private static Boolean luminosityMonEnabled = true;
 	private static Boolean UltraSndMonEnabled = false;
-
 
 	static class MyHandler extends Handler {
 
@@ -59,6 +61,19 @@ public class ControlActivity extends Activity {
 				TextView textViewDistence = (TextView) theActivity
 						.findViewById(R.id.textViewObjDistenceValue);
 				textViewDistence.setText(dist.toString());
+
+
+				if (dist > 400) {
+					((ToggleButton) theActivity
+							.findViewById(R.id.toggleButtonPower))
+							.setChecked(true);
+				} else if (dist < 200) {
+					((ToggleButton) theActivity
+							.findViewById(R.id.toggleButtonPower))
+							.setChecked(false);
+
+				}
+
 			case 4:
 				Integer pickedcolor = (Integer)msg.obj;
 				int r = (pickedcolor >> 16) & 0xFF;
@@ -66,9 +81,11 @@ public class ControlActivity extends Activity {
 				int b = (pickedcolor >> 0) & 0xFF;
 				
 				theActivity.setColorBars(r, g, b);
+				theActivity.changeDeviceColor();
 			default:
 				break;
 			}
+			theActivity = null;
 		}
 
 	};
@@ -81,7 +98,7 @@ public class ControlActivity extends Activity {
 		setContentView(R.layout.activity_control);
 
 		TargetIP = this.getIntent().getStringExtra("TargetIP");
-		
+
 		final ToggleButton toggleButtonPower = (ToggleButton) findViewById(R.id.toggleButtonPower);
 		final ToggleButton toggleButtonUltraSnd = (ToggleButton) findViewById(R.id.toggleButtonUltraSnd);
 		final Button ButtonColor = (Button) findViewById(R.id.buttonColor);
@@ -90,13 +107,16 @@ public class ControlActivity extends Activity {
 		MonitorActive = true;
 		startMonitors();
 
-		toggleButtonPower.setOnClickListener(new View.OnClickListener() {
+		toggleButtonPower
+				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-			@Override
-			public void onClick(View v) {
-				changeSwich(toggleButtonPower.isChecked());
-			}
-		});
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						changeSwich(toggleButtonPower.isChecked());
+
+					}
+				});
 
 		toggleButtonUltraSnd.setOnClickListener(new View.OnClickListener() {
 
@@ -204,7 +224,7 @@ public class ControlActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				 snmp = null;
+				snmp = null;
 			}
 		}.start();
 	}
@@ -213,6 +233,7 @@ public class ControlActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		MonitorActive = false;
+		UltraSndMonEnabled = false;
 		finish();
 
 	}
@@ -243,7 +264,7 @@ public class ControlActivity extends Activity {
 							msg.obj = result;
 							handler.sendMessage(msg);
 
-							sleep(500);
+							sleep(300);
 						}
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -251,7 +272,7 @@ public class ControlActivity extends Activity {
 					}
 
 				}
-				snmp=null;
+				snmp = null;
 			}
 		}.start();
 
@@ -264,7 +285,7 @@ public class ControlActivity extends Activity {
 			public void run() {
 				SnmpService snmp = new SnmpService(TargetIP);
 				snmp.setSnmpSwitch("1.3.6.1.4.1.36582.1.0", checked);
-				snmp=null;
+				snmp = null;
 			}
 		}.start();
 	}
